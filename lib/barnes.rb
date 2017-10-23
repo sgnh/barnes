@@ -20,11 +20,11 @@ module Barnes
     panels        = panels
     sample_rate   = interval.to_f / aggregation_period.to_f
 
-    if statsd_client == :default
-      statsd_client = Statsd.new('127.0.0.1', ENV["PORT"]) if ENV["PORT"]
+    if statsd_client == :default && ENV["PORT"]
+      statsd_client = Statsd.new('127.0.0.1', ENV["PORT"])
     end
 
-    if statsd_client
+    if statsd_client && statsd_client != :default
       reporter = Barnes::Reporter.new(statsd: statsd_client, sample_rate: sample_rate)
 
       unless panels.length > 0
