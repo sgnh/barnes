@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name      = 'barnes'
-  s.version   = '0.0.1'
+  s.version   = '0.0.2'
   s.license   = 'MIT'
   s.summary   = 'Ruby GC stats => StatsD'
   s.description = 'Report GC usage data to StatsD.'
