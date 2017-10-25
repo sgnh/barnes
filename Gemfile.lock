@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    barnes (0.0.2)
+    barnes (0.0.3)
       statsd-ruby (~> 1.1)
 
 GEM
@@ -16,6 +16,7 @@ PLATFORMS
 
 DEPENDENCIES
   barnes!
+  bundler (~> 1.15)
   minitest (~> 5.3)
   rake (~> 10)
 
