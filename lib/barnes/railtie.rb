@@ -1,6 +1,4 @@
 require 'rails/railtie'
-require 'barnes/reporter'
-require 'barnes/resource_usage'
 
 module Barnes
   # Automatically configures barnes to run with
