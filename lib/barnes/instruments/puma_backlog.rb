@@ -34,15 +34,14 @@ module Barnes
         stats = self.json_stats
         return if stats.empty?
 
-        if stats["backlog"]
-          gauges[:'web.backlog'] = stats["backlog"]
-        else
+        backlog = stats["backlog"]
+        if backlog.nil?
           backlog = stats["worker_status"].map do |worker_status|
             worker_status["last_status"]["backlog"]
           end.reduce(0, :+)
-
-          gauges[:'web.backlog'] = backlog
         end
+
+        gauges[:'Ruby.web.backlog.requests'] = backlog
       end
     end
   end
