@@ -41,7 +41,7 @@ module Barnes
           end.reduce(0, :+)
         end
 
-        gauges[:'Ruby.web.backlog.requests'] = backlog
+        gauges[:'Ruby.Server.web.backlog.requests'] = backlog
       end
     end
   end
