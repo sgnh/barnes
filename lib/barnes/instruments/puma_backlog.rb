@@ -9,7 +9,7 @@ module Barnes
       def valid?
         defined?(Puma) &&
           Puma.respond_to?(:stats) &&
-          ENV["DYNO"].start_with?("web")
+          ENV["DYNO"] && ENV["DYNO"].start_with?("web")
       end
 
       def start!(state)
