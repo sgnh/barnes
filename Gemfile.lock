@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    barnes (0.0.3)
+    barnes (0.0.4)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
 
