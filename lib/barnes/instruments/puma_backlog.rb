@@ -26,22 +26,28 @@ module Barnes
         return {}
       end
 
-      # For single worker process use backlog directly
+      # For single worker process use value directly
       # for multiple workers sum backlog.
       #
       # https://github.com/puma/puma/pull/1532
+      def stat_value_from_key(key)
+        stats = json_stats
+
+        value = stats[key]
+        return value if value
+
+        value = stats["worker_status"].map do |worker_status|
+          worker_status["last_status"][key] || 0
+        end.reduce(0, :+)
+
+        return value
+      end
+
       def instrument!(state, counters, gauges)
-        stats = self.json_stats
-        return if stats.empty?
+        return if json_stats.empty?
 
-        backlog = stats["backlog"]
-        if backlog.nil?
-          backlog = stats["worker_status"].map do |worker_status|
-            worker_status["last_status"]["backlog"]
-          end.reduce(0, :+)
-        end
-
-        gauges[:'backlog.requests'] = backlog
+        gauges[:'pool.capacity']    = stat_value_from_key("pool_capacity")
+        gauges[:'backlog.requests'] = stat_value_from_key("backlog")
       end
     end
   end
