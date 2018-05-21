@@ -1,4 +1,4 @@
-require 'barnes/test_helper'
+require 'test_helper'
 require 'barnes/reporter'
 require 'logger'
 require 'stringio'
