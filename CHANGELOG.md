@@ -1,3 +1,7 @@
+## 0.0.5
+
+- Support Puma pool capacity value #15
+
 ## 0.0.4
 
 - Support Puma backlog #14
