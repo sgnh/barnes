@@ -28,10 +28,10 @@ module Barnes
   # to a reporting instance of `Barnes::Reporter` at a semi-regular
   # rate.
   class Periodic
-    def initialize(reporter:, sample_rate: 1, panels: [])
+    def initialize(reporter:, sample_rate: 1, debug: false, panels: [])
       @reporter = reporter
       @reporter.sample_rate = sample_rate
-
+      @debug = debug
       # compute interval based on a 60s reporting phase.
       @interval = sample_rate * 60.0
       @panels = panels
@@ -57,6 +57,8 @@ module Barnes
             @panels.each do |panel|
               panel.instrument! env[STATE], env[COUNTERS], env[GAUGES]
             end
+
+            puts env.to_json if @debug
             @reporter.report env
           end
         end

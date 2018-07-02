@@ -27,12 +27,32 @@ class PumaStatsTest < Minitest::Test
   end
 
   def test_missing_key_single
-    stat = stat_value({ "backlog" => 0, "running" => 0, "pool_capacity" => 16 }, "does_not_exist")
+    stats_hash = { "backlog" => 0, "running" => 0, "pool_capacity" => 16 }
+    stat = stat_value(stats_hash, "does_not_exist")
     assert_nil stat.value
   end
 
   def test_missing_key_cluster
     stat = stat_value({"workers"=>2, "worker_status"=>[{"last_status" => {}}] }, "does_not_exist")
     assert_nil stat.value
+  end
+
+  def test_max_threads_single
+    expected   = rand(3..99)
+    stats_hash = { "backlog" => 0, "running" => 0, "max_threads" => expected }
+    stat = stat_value(stats_hash, "max_threads")
+    assert_equal expected, stat.value
+  end
+
+  def test_max_threads_cluster
+    expected   = rand(3..99)
+    stats_hash = {
+      "workers" => 2, "worker_status" => [
+        {"last_status" => { "max_threads" => expected }},
+        {"last_status" => { "max_threads" => expected }}
+      ]
+    }
+    stat = stat_value(stats_hash, "max_threads")
+    assert_equal expected + expected, stat.value
   end
 end

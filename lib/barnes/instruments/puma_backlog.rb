@@ -78,10 +78,12 @@ module Barnes
         puts "Puma debug stats from barnes: #{stats}" if @debug
 
         pool_capacity = StatValue.new(stats, "pool_capacity").value
-        backlog       = StatValue.new(stats, "backlog").value
+        max_threads   = StatValue.new(stats, "max_threads").value
+        spawned       = StatValue.new(stats, "running").value
 
         gauges[:'pool.capacity']    = pool_capacity if pool_capacity
-        gauges[:'backlog.requests'] = backlog       if backlog
+        gauges[:'threads.max']      = max_threads   if max_threads
+        gauges[:'threads.spawned']  = spawned       if spawned
       end
     end
   end

@@ -54,7 +54,12 @@ module Barnes
         panels << Barnes::ResourceUsage.new(sample_rate)
       end
 
-      Periodic.new reporter: reporter, sample_rate: sample_rate, panels: panels
+      Periodic.new(
+        reporter:    reporter,
+        sample_rate: sample_rate,
+        panels:      panels,
+        debug:       ENV['BARNES_DEBUG']
+      )
     end
   end
 end
