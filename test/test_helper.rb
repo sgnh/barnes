@@ -23,7 +23,6 @@ def is_port_open?(ip, port)
         s.close
         return true
       rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
-        puts e
         return false
       end
     end
