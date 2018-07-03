@@ -8,32 +8,34 @@ class PumaStatsTest < Minitest::Test
 
   def test_key_single
     expected = rand(3..99)
-    stat = stat_value({ "backlog" => expected }, "backlog")
+    stat = stat_value({ "pool_capacity" => expected }, "pool_capacity")
     assert_equal expected, stat.value
   end
 
   def test_key_cluster
     expected = rand(3..99)
     stat = stat_value({"workers" => 2, "worker_status" => [
-      {"last_status" => { "backlog" => expected }},
-      {"last_status" => { "backlog" => expected }}
-    ] }, "backlog")
+      {"last_status" => { "pool_capacity" => expected }},
+      {"last_status" => { "pool_capacity" => expected }}
+    ] }, "pool_capacity")
     assert_equal expected + expected, stat.value
   end
 
   def test_cluster_no_values
-    stat = stat_value({"workers"=>0, "phase"=>0, "booted_workers"=>0, "old_workers"=>0, "worker_status"=>[]}, "booted")
+    stats_hash = {"workers"=>0, "phase"=>0, "booted_workers"=>0, "old_workers"=>0, "worker_status"=>[]}
+    stat       = stat_value(stats_hash, "booted")
     assert_nil stat.value
   end
 
   def test_missing_key_single
     stats_hash = { "backlog" => 0, "running" => 0, "pool_capacity" => 16 }
-    stat = stat_value(stats_hash, "does_not_exist")
+    stat       = stat_value(stats_hash, "does_not_exist")
     assert_nil stat.value
   end
 
   def test_missing_key_cluster
-    stat = stat_value({"workers"=>2, "worker_status"=>[{"last_status" => {}}] }, "does_not_exist")
+    stats_hash = {"workers"=>2, "worker_status"=>[{"last_status" => {}}] }
+    stat       = stat_value(stats_hash, "does_not_exist")
     assert_nil stat.value
   end
 
