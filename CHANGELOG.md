@@ -1,3 +1,8 @@
+## 0.0.6
+
+- Support Puma max threads, support Puma spawned threads
+- Drop Puma backlog metric
+
 ## 0.0.5
 
 - Support Puma pool capacity value #15
