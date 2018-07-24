@@ -2,7 +2,7 @@
 
 module Barnes
   module Instruments
-    class PumaBacklog
+    class PumaInstrument
       # This class is responsible for consuming a puma
       # generated stats hash that can come in two "flavors"
       # one is a "single process" server which will look like this:

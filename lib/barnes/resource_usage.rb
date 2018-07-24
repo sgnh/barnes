@@ -28,8 +28,8 @@ module Barnes
     def initialize(sample_rate)
       super()
 
-      require 'barnes/instruments/puma_backlog'
-      backlog_reporter = Barnes::Instruments::PumaBacklog.new
+      require 'barnes/instruments/puma_instrument'
+      backlog_reporter = Barnes::Instruments::PumaInstrument.new
 
       if backlog_reporter.valid?
         instrument backlog_reporter
