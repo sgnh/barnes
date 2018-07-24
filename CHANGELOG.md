@@ -1,3 +1,7 @@
+## 0.0.7
+
+- Report when an app is using Puma
+
 ## 0.0.6
 
 - Support Puma max threads, support Puma spawned threads
