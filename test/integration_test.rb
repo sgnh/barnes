@@ -6,6 +6,7 @@ class IntegrationTest < Minitest::Test
       WaitForIt.new("bundle exec puma", options) do |spawn|
         spawn.wait('"barnes.gauges":', 1)
         expect_spawn_to_contain(spawn, '"threads.spawned":0')
+        expect_spawn_to_contain(spawn, '"using.puma":1')
       end
     end
   end
