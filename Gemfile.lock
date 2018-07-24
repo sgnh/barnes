@@ -12,7 +12,8 @@ GEM
     json (2.1.0)
     minitest (5.10.3)
     multi_json (1.13.1)
-    puma (3.11.4)
+    puma (3.12.0)
+    rack (2.0.5)
     rake (10.5.0)
     simplecov (0.15.1)
       docile (~> 1.1.0)
@@ -30,6 +31,7 @@ DEPENDENCIES
   bundler (~> 1.15)
   minitest (~> 5.3)
   puma (~> 3.11)
+  rack (~> 2)
   rake (~> 10)
   simplecov
   wait_for_it (~> 0.1)

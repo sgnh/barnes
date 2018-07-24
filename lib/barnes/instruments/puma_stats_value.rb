@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 module Barnes
   module Instruments
-    class PumaBacklog
+    class PumaInstrument
       # This class is responsible for consuming a puma
       # generated stats hash that can come in two "flavors"
       # one is a "single process" server which will look like this:
@@ -45,45 +43,6 @@ module Barnes
           end
           return value
         end
-      end
-
-      def initialize(sample_rate=nil)
-        @debug = ENV["BARNES_DEBUG_PUMA_STATS"]
-      end
-
-      def valid?
-        defined?(Puma) &&
-          Puma.respond_to?(:stats) &&
-          ENV["DYNO"] && ENV["DYNO"].start_with?("web")
-      end
-
-      def start!(state)
-        require 'multi_json'
-      end
-
-      def json_stats
-        MultiJson.load(Puma.stats || "{}")
-
-      # Puma loader has not been initialized yet
-      rescue NoMethodError => e
-        raise e unless e.message =~ /nil/
-        raise e unless e.message =~ /stats/
-        return {}
-      end
-
-      def instrument!(state, counters, gauges)
-        stats = json_stats
-        return if stats.empty?
-
-        puts "Puma debug stats from barnes: #{stats}" if @debug
-
-        pool_capacity = StatValue.new(stats, "pool_capacity").value
-        max_threads   = StatValue.new(stats, "max_threads").value
-        spawned       = StatValue.new(stats, "running").value
-
-        gauges[:'pool.capacity']    = pool_capacity if pool_capacity
-        gauges[:'threads.max']      = max_threads   if max_threads
-        gauges[:'threads.spawned']  = spawned       if spawned
       end
     end
   end

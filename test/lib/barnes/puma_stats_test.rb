@@ -1,9 +1,9 @@
 require 'test_helper'
-require 'barnes/instruments/puma_backlog'
+require 'barnes/instruments/puma_instrument'
 
 class PumaStatsTest < Minitest::Test
   def stat_value(stats, key)
-    ::Barnes::Instruments::PumaBacklog::StatValue.new(stats, key)
+    ::Barnes::Instruments::PumaInstrument::StatValue.new(stats, key)
   end
 
   def test_key_single
