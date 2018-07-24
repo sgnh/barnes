@@ -29,10 +29,10 @@ module Barnes
       super()
 
       require 'barnes/instruments/puma_instrument'
-      backlog_reporter = Barnes::Instruments::PumaInstrument.new
+      puma_instrument = Barnes::Instruments::PumaInstrument.new
 
-      if backlog_reporter.valid?
-        instrument backlog_reporter
+      if puma_instrument.valid?
+        instrument puma_instrument
       end
 
       require 'barnes/instruments/stopwatch'
