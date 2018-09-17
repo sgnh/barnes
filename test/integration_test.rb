@@ -20,7 +20,31 @@ class IntegrationTest < Minitest::Test
     end
   end
 
-  def options
+  def test_workers_before_fork
+    Dir.chdir(fixture_path("rack/workers")) do |dir|
+      WaitForIt.new("bundle exec puma -C ./config.rb",
+        options(INSERT_BARNES_BEFORE_FORK: "true")) do |spawn|
+        # must wait past Puma::Cluster::WORKER_CHECK_INTERVAL
+        spawn.wait(%Q{"pool.capacity":10}, 7)
+        expect_spawn_to_contain(spawn, %Q{"pool.capacity":10})
+        expect_spawn_to_contain(spawn, %Q{"using.puma":1})
+      end
+    end
+  end
+
+  def test_workers_on_boot
+    Dir.chdir(fixture_path("rack/workers")) do |dir|
+      WaitForIt.new("bundle exec puma -C ./config.rb",
+        options(INSERT_BARNES_ON_WORKER_BOOT: "true")) do |spawn|
+        # must wait past Puma::Cluster::WORKER_CHECK_INTERVAL
+        sleep 7
+        spawn_should_not_contain(spawn, %Q{"pool.capacity":10})
+        expect_spawn_to_contain(spawn, %Q{"using.puma":1})
+      end
+    end
+  end
+
+  def options(env = nil)
     port    = next_open_port
     options = {}
     options[:env] = {
@@ -28,6 +52,7 @@ class IntegrationTest < Minitest::Test
       "PORT"         => port,
       "BARNES_DEBUG" => "1"
     }
+    options[:env].merge!(env) if env
     options[:wait_for] = "Use Ctrl-C to stop"
     options
   end
@@ -37,6 +62,6 @@ class IntegrationTest < Minitest::Test
   end
 
   def expect_spawn_to_contain(spawn, string, does_contain: true)
-    assert_equal does_contain, !!spawn.contains?(string), "Expected #{spawn.log.read} to contain #{string.inspect} but it did not"
+    assert_equal does_contain, !!spawn.contains?(string), "Expected: \n#{spawn.log.read}\nto contain #{string.inspect} but it did not:"
   end
 end
