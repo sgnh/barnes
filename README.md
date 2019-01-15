@@ -32,7 +32,7 @@ Then run:
 $ bundle install
 ```
 
-In your application:
+In your puma.rb file:
 
 
 ```ruby
