@@ -42,6 +42,9 @@ require 'barnes'
 Then you'll need to start the client with default values:
 
 ```ruby
-Barnes.start
+before_fork do
+  # worker configuration
+  Barnes.start
+end
 ```
 
