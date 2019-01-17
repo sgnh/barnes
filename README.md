@@ -32,7 +32,7 @@ Then run:
 $ bundle install
 ```
 
-In your application:
+In your puma.rb file:
 
 
 ```ruby
@@ -42,6 +42,9 @@ require 'barnes'
 Then you'll need to start the client with default values:
 
 ```ruby
-Barnes.start
+before_fork do
+  # worker configuration
+  Barnes.start
+end
 ```
 
