@@ -4,9 +4,9 @@ A fork of [trashed](https://github.com/basecamp/trashed) focused on Ruby metrics
 
 ## Setup
 
-### Rails 5
+### Rails 3, 4, 5, and 6
 
-On Rails 5 (and Rails 3 and 4), add this to your Gemfile:
+On Rails 6 (and Rails 3 and 4 and 5), add this to your Gemfile:
 
 ```
 gem "barnes"
