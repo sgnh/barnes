@@ -22,7 +22,7 @@ def is_port_open?(ip, port)
         s.listen(1024)
         s.close
         return true
-      rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
+      rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
         return false
       end
     end
