@@ -67,4 +67,3 @@ end
 require 'barnes/reporter'
 require 'barnes/resource_usage'
 require 'barnes/periodic'
-require 'barnes/railtie' if defined? ::Rails::Railtie
